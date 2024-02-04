@@ -31,8 +31,8 @@ class _SearchScreenState extends State<SearchScreen> {
         itemBuilder: (context, index) {
           if (dataProvider.isLoaded) {
             return InternshipCard(
-                // internship: dataProvider.internships[index],
-                );
+              internship: dataProvider.internships[index],
+            );
           }
           return InternshipCard.loading(context, index);
         },

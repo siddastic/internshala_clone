@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:internshala_search/models/internship.dart';
 import 'package:internshala_search/widgets/chip_label.dart';
 import 'package:internshala_search/widgets/icon_label.dart';
 import 'package:internshala_search/widgets/placeholder_box.dart';
 import 'package:internshala_search/widgets/space.dart';
 
 class InternshipCard extends StatelessWidget {
-  const InternshipCard({super.key});
+  final Internship internship;
+  const InternshipCard({
+    required this.internship,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,56 +22,65 @@ class InternshipCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Marketing",
-                    style: TextStyle(
+                    internship.title,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "Careers360",
-                    style: TextStyle(
+                    internship.company_name.length > 40
+                        ? internship.company_name.substring(0, 40) +
+                            "\n" +
+                            internship.company_name.substring(40)
+                        : internship.company_name,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
                     ),
                   ),
                 ],
               ),
-              Spacer(),
-              FlutterLogo(),
+              const Spacer(),
+              const FlutterLogo(),
             ],
           ),
           Space.def,
-          const IconLabel(icon: Icons.home_outlined, label: "Work from home"),
+          if (internship.isWorkFromHome)
+            const IconLabel(icon: Icons.home_outlined, label: "Work from home")
+          else
+            IconLabel(
+              icon: Icons.location_on_rounded,
+              label: internship.location_names.join(", "),
+            ),
           Space.def,
           Row(
             children: [
-              const IconLabel(
+              IconLabel(
                   icon: Icons.play_circle_outline_rounded,
-                  label: "Starts Immediately"),
+                  label: internship.start_date),
               Space.horizontal,
-              const IconLabel(
+              IconLabel(
                 icon: Icons.calendar_today_rounded,
-                label: "2 Months",
+                label: internship.duration,
                 iconSize: 15,
               ),
             ],
           ),
           Space.def,
-          const IconLabel(icon: Icons.money_rounded, label: "₹ 10000 /month"),
+          IconLabel(icon: Icons.money_rounded, label: internship.stipend),
           Space.def,
-          const Wrap(
+          Wrap(
             spacing: 8,
             children: [
-              ChipLabel(label: "Internship"),
-              ChipLabel(label: "Part Time"),
+              for (var label in internship.labels) ChipLabel(label: label),
             ],
           ),
           Space.def,
@@ -74,15 +88,19 @@ class InternshipCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(.25),
+                color: internship.postedByLabelType == "success"
+                    ? Colors.green.withOpacity(.25)
+                    : Colors.grey.withOpacity(.25),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const IconLabel(
+              child: IconLabel(
                 icon: Icons.access_time_rounded,
-                label: "2 days ago",
+                label: internship.postedByLabel,
                 iconSize: 12,
                 textSize: 12,
-                color: Color(0xff13800D),
+                color: internship.postedByLabelType == "success"
+                    ? const Color(0xff13800D)
+                    : Colors.grey,
               ),
             ),
           ),
