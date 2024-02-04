@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:internshala_search/widgets/chip_label.dart';
 import 'package:internshala_search/widgets/icon_label.dart';
+import 'package:internshala_search/widgets/placeholder_box.dart';
 import 'package:internshala_search/widgets/space.dart';
 
 class InternshipCard extends StatelessWidget {
@@ -15,7 +17,7 @@ class InternshipCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
@@ -42,15 +44,15 @@ class InternshipCard extends StatelessWidget {
             ],
           ),
           Space.def,
-          IconLabel(icon: Icons.home_outlined, label: "Work from home"),
+          const IconLabel(icon: Icons.home_outlined, label: "Work from home"),
           Space.def,
           Row(
             children: [
-              IconLabel(
+              const IconLabel(
                   icon: Icons.play_circle_outline_rounded,
                   label: "Starts Immediately"),
               Space.horizontal,
-              IconLabel(
+              const IconLabel(
                 icon: Icons.calendar_today_rounded,
                 label: "2 Months",
                 iconSize: 15,
@@ -58,9 +60,9 @@ class InternshipCard extends StatelessWidget {
             ],
           ),
           Space.def,
-          IconLabel(icon: Icons.money_rounded, label: "₹ 10000 /month"),
+          const IconLabel(icon: Icons.money_rounded, label: "₹ 10000 /month"),
           Space.def,
-          Wrap(
+          const Wrap(
             spacing: 8,
             children: [
               ChipLabel(label: "Internship"),
@@ -75,7 +77,7 @@ class InternshipCard extends StatelessWidget {
                 color: Colors.green.withOpacity(.25),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: IconLabel(
+              child: const IconLabel(
                 icon: Icons.access_time_rounded,
                 label: "2 days ago",
                 iconSize: 12,
@@ -98,7 +100,7 @@ class InternshipCard extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {},
-                child: Text("View Details"),
+                child: const Text("View Details"),
               ),
               Space.horizontal,
               ElevatedButton(
@@ -106,7 +108,7 @@ class InternshipCard extends StatelessWidget {
                   primary: Theme.of(context).colorScheme.primary,
                 ),
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   "Apply now",
                   style: TextStyle(
                     color: Colors.white,
@@ -118,5 +120,92 @@ class InternshipCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static Widget loading(BuildContext context, int index) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const PlaceholderBox(width: 100),
+                  Space.def,
+                  const PlaceholderBox(width: 200),
+                ],
+              ),
+              const Spacer(),
+              const PlaceholderBox(width: 50),
+            ],
+          ),
+          Space.def,
+          const PlaceholderBox(width: 150),
+          Space.def,
+          Row(
+            children: [
+              const PlaceholderBox(width: 100),
+              Space.horizontal,
+              const PlaceholderBox(width: 100),
+            ],
+          ),
+          Space.def,
+          const PlaceholderBox(width: 150),
+          Space.def,
+          const Wrap(
+            spacing: 8,
+            children: [
+              PlaceholderBox(width: 50),
+              PlaceholderBox(width: 50),
+            ],
+          ),
+          Space.def,
+          FittedBox(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(.25),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const PlaceholderBox(width: 50),
+            ),
+          ),
+          Space.def,
+          Divider(
+            indent: 8,
+            endIndent: 8,
+            thickness: .5,
+            color: Colors.grey.withOpacity(.5),
+            height: 0,
+          ),
+          Space.def,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const PlaceholderBox(width: 100),
+              Space.horizontal,
+              const PlaceholderBox(width: 100),
+            ],
+          ),
+        ],
+      ),
+    )
+        .animate()
+        .fadeIn(
+          duration: const Duration(milliseconds: 500),
+          delay: Duration(milliseconds: 100 * index),
+        )
+        .slideY(
+          begin: .5,
+          end: 0,
+          delay: Duration(milliseconds: 100 * index),
+          duration: const Duration(milliseconds: 500),
+        );
   }
 }
