@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
           ThemeData.dark().textTheme,
         ),
         appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: ConstantColors.darkBackgroundColor,
+          actionsIconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -43,6 +45,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: ConstantColors.primaryColor,
           primary: ConstantColors.primaryColor,
+        ),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: ConstantColors.darkBackgroundColor,
+        ),
+        listTileTheme: const ListTileThemeData(
+          textColor: Colors.white,
         ),
       ),
       theme: ThemeData(
