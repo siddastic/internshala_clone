@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:internshala_search/providers/data_provider.dart';
@@ -24,15 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     var filterProvider = Provider.of<FiltersProvider>(context, listen: false);
     Provider.of<DataProvider>(context, listen: false).load((internships) {
-      // var cities = internships.map((e) => e.locationNames.).toList();
-      // var profiles = internships.map((e) => e.profileName).toSet().toList();
-      // log(cities.toString());
-      // filterProvider.setAvailableCities(cities);
-      // filterProvider.setProfiles(profiles);
       List<String> cities = [];
       List<String> profiles = [];
 
-      internships.forEach((internship) {
+      for (var internship in internships) {
         // cities.addAll(internship.locationNames);
         for (var element in internship.locationNames) {
           if (!cities.contains(element)) {
@@ -42,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
         if (!profiles.contains(internship.profileName)) {
           profiles.add(internship.profileName);
         }
-      });
+      }
 
       filterProvider.setAvailableCities(cities);
       filterProvider.setAvailableProfiles(profiles);
@@ -242,7 +235,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 const Space(10),
                 Center(
                   child: Text(
-                    "Showing ${dataProvider.isLoaded ? dataProvider.internships.length : 3} internships",
+                    filtersProvider.filtersAvailable
+                        ? "Matching ${filtersProvider.filteredInternships.length} out of ${dataProvider.internships.length}"
+                        : "Showing ${dataProvider.isLoaded ? dataProvider.internships.length : 3} internships",
                     style: const TextStyle(
                       color: Colors.grey,
                     ),
@@ -253,20 +248,40 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           const Space(5),
-          Expanded(
-            child: ListView.builder(
-              itemCount:
-                  dataProvider.isLoaded ? dataProvider.internships.length : 3,
-              itemBuilder: (context, index) {
-                if (dataProvider.isLoaded) {
+          if (filtersProvider.filtersAvailable)
+            if (filtersProvider.filteredInternships.isNotEmpty)
+              Expanded(
+                  child: ListView.builder(
+                itemCount: filtersProvider.filteredInternships.length,
+                itemBuilder: (context, index) {
                   return InternshipCard(
-                    internship: dataProvider.internships[index],
+                    internship: filtersProvider.filteredInternships[index],
                   );
-                }
-                return InternshipCard.loading(context, index);
-              },
+                },
+              ))
+            else
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .6,
+                child: const Center(
+                  child: Text("No internships matching your filters",
+                      style: TextStyle(color: Colors.grey)),
+                ),
+              )
+          else
+            Expanded(
+              child: ListView.builder(
+                itemCount:
+                    dataProvider.isLoaded ? dataProvider.internships.length : 3,
+                itemBuilder: (context, index) {
+                  if (dataProvider.isLoaded) {
+                    return InternshipCard(
+                      internship: dataProvider.internships[index],
+                    );
+                  }
+                  return InternshipCard.loading(context, index);
+                },
+              ),
             ),
-          ),
         ],
       ),
     );

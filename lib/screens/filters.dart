@@ -2,6 +2,7 @@ import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internshala_search/models/filter_choice.dart';
+import 'package:internshala_search/providers/data_provider.dart';
 import 'package:internshala_search/providers/filters_provider.dart';
 import 'package:internshala_search/screens/filter_chooser.dart';
 import 'package:internshala_search/widgets/placeholder_box.dart';
@@ -149,7 +150,8 @@ class FiltersScreen extends StatelessWidget {
                   CheckboxListTile(
                     value: filtersProvider.isWorkFromHome ?? false,
                     onChanged: (v) {
-                      filtersProvider.setIsWorkFromHome(v);
+                      filtersProvider
+                          .setIsWorkFromHome(v == true ? true : null);
                     },
                     controlAffinity: ListTileControlAffinity.leading,
                     visualDensity: VisualDensity.compact,
@@ -160,7 +162,7 @@ class FiltersScreen extends StatelessWidget {
                   CheckboxListTile(
                     value: filtersProvider.isPartTime ?? false,
                     onChanged: (v) {
-                      filtersProvider.setIsPartTime(v);
+                      filtersProvider.setIsPartTime(v == true ? true : null);
                     },
                     controlAffinity: ListTileControlAffinity.leading,
                     visualDensity: VisualDensity.compact,
@@ -250,6 +252,9 @@ class FiltersScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        var dataProvider =
+                            Provider.of<DataProvider>(context, listen: false);
+                        filtersProvider.applyFilters(dataProvider.internships);
                         Navigator.of(context).pop();
                       },
                       child: const Text("Apply",

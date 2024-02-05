@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internshala_search/models/internship.dart';
 
 class FiltersProvider extends ChangeNotifier {
   List<String> _availableProfiles = [];
@@ -8,7 +9,9 @@ class FiltersProvider extends ChangeNotifier {
   bool? _isWorkFromHome;
   bool? _isPartTime;
   int? _maximumDuration;
+  List<Internship> _filteredInternships = [];
 
+  List<Internship> get filteredInternships => _filteredInternships;
   List<String> get availableProfiles => _availableProfiles;
   List<String> get availableCities => _availableCities;
   List<String> get selectedProfiles => _selectedProfiles;
@@ -95,6 +98,36 @@ class FiltersProvider extends ChangeNotifier {
     _isWorkFromHome = null;
     _isPartTime = null;
     _maximumDuration = null;
+    _filteredInternships.clear();
+    notifyListeners();
+  }
+
+  void applyFilters(List<Internship> internships) {
+    _filteredInternships = internships.where((internship) {
+      if (_selectedProfiles.isNotEmpty &&
+          !_selectedProfiles.contains(internship.profileName)) {
+        return false;
+      }
+      if (_selectedCities.isNotEmpty &&
+          !_selectedCities.any((city) => internship.locationNames.any(
+              (location) =>
+                  location.toLowerCase().contains(city.toLowerCase())))) {
+        return false;
+      }
+      if (_isWorkFromHome != null &&
+          _isWorkFromHome != internship.isWorkFromHome) {
+        return false;
+      }
+      if (_isPartTime != null &&
+          _isPartTime != internship.labels.contains('Part-time')) {
+        return false;
+      }
+      if (_maximumDuration != null &&
+          int.parse(internship.duration.split(' ')[0]) > _maximumDuration!) {
+        return false;
+      }
+      return true;
+    }).toList();
     notifyListeners();
   }
 }
