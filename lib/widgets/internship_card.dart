@@ -41,9 +41,9 @@ class InternshipCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        internship.company_name.length > 40
-                            ? "${internship.company_name.substring(0, 40)}\n${internship.company_name.substring(40)}"
-                            : internship.company_name,
+                        internship.companyName.length > 40
+                            ? "${internship.companyName.substring(0, 40)}\n${internship.companyName.substring(40)}"
+                            : internship.companyName,
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -62,14 +62,14 @@ class InternshipCard extends StatelessWidget {
               else
                 IconLabel(
                   icon: Icons.location_on_rounded,
-                  label: internship.location_names.join(", "),
+                  label: internship.locationNames.join(", "),
                 ),
               Space.def,
               Row(
                 children: [
                   IconLabel(
                       icon: Icons.play_circle_outline_rounded,
-                      label: internship.start_date),
+                      label: internship.startDate),
                   Space.horizontal,
                   IconLabel(
                     icon: Icons.calendar_today_rounded,

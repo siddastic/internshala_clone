@@ -66,12 +66,13 @@ class _SplashScreenState extends State<SplashScreen> {
                         style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
+                          color: Colors.blue,
                         ),
                         children: [
                           TextSpan(
                             text: "shala",
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Colors.white,
                             ),
                           ),
                         ],
