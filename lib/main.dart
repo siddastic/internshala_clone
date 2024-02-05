@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internshala_search/constants/colors.dart';
 import 'package:internshala_search/providers/data_provider.dart';
+import 'package:internshala_search/providers/filters_provider.dart';
 import 'package:internshala_search/screens/filters.dart';
 import 'package:internshala_search/screens/search.dart';
 import 'package:internshala_search/screens/splash.dart';
@@ -12,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
+        ChangeNotifierProvider(create: (context) => FiltersProvider()),
       ],
       child: const MyApp(),
     ),

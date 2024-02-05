@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart' show ChangeNotifier;
+import 'package:flutter/material.dart' show ChangeNotifier, VoidCallback;
 import 'package:http/http.dart';
 import 'package:internshala_search/models/internship.dart';
 
@@ -8,10 +8,10 @@ class DataProvider extends ChangeNotifier {
   final List<Internship> _internships = [];
   bool _isLoaded = false;
 
-  List get internships => _internships;
+  List<Internship> get internships => _internships;
   bool get isLoaded => _isLoaded;
 
-  void load() async {
+  void load(Function(List<Internship> internships) onLoad) async {
     _internships.clear();
     // intentional delay to show the shimmer effect
     await Future.delayed(const Duration(seconds: 1));
@@ -28,6 +28,8 @@ class DataProvider extends ChangeNotifier {
       });
 
       _isLoaded = true;
+
+      onLoad(internships);
     }
     notifyListeners();
   }
