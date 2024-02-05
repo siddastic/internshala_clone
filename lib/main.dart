@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internshala_search/constants/colors.dart';
 import 'package:internshala_search/providers/data_provider.dart';
+import 'package:internshala_search/screens/filters.dart';
 import 'package:internshala_search/screens/search.dart';
+import 'package:internshala_search/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -83,7 +85,12 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SearchScreen(),
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        SearchScreen.routeName: (context) => const SearchScreen(),
+        FiltersScreen.routeName: (context) => const FiltersScreen(),
+      },
     );
   }
 }

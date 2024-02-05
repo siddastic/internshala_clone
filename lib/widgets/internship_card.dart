@@ -42,9 +42,7 @@ class InternshipCard extends StatelessWidget {
                       ),
                       Text(
                         internship.company_name.length > 40
-                            ? internship.company_name.substring(0, 40) +
-                                "\n" +
-                                internship.company_name.substring(40)
+                            ? "${internship.company_name.substring(0, 40)}\n${internship.company_name.substring(40)}"
                             : internship.company_name,
                         style: const TextStyle(
                           fontSize: 16,

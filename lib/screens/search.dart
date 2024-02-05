@@ -1,12 +1,14 @@
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:internshala_search/providers/data_provider.dart';
+import 'package:internshala_search/screens/filters.dart';
 import 'package:internshala_search/widgets/internship_card.dart';
 import 'package:internshala_search/widgets/placeholder_box.dart';
 import 'package:internshala_search/widgets/space.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
+  static const routeName = '/search';
   const SearchScreen({super.key});
 
   @override
@@ -124,16 +126,57 @@ class _SearchScreenState extends State<SearchScreen> {
           Space.horizontal,
         ],
       ),
-      body: ListView.builder(
-        itemCount: dataProvider.isLoaded ? dataProvider.internships.length : 3,
-        itemBuilder: (context, index) {
-          if (dataProvider.isLoaded) {
-            return InternshipCard(
-              internship: dataProvider.internships[index],
-            );
-          }
-          return InternshipCard.loading(context, index);
-        },
+      body: Column(
+        children: [
+          Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    primary: Theme.of(context).colorScheme.primary,
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(FiltersScreen.routeName);
+                  },
+                  icon: const Icon(CarbonIcons.filter),
+                  label: const Text("Filter"),
+                ),
+                const Space(10),
+                Text(
+                  "Showing ${dataProvider.isLoaded ? dataProvider.internships.length : 3} internships",
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                const Space(10),
+              ],
+            ),
+          ),
+          const Space(5),
+          Expanded(
+            child: ListView.builder(
+              itemCount:
+                  dataProvider.isLoaded ? dataProvider.internships.length : 3,
+              itemBuilder: (context, index) {
+                if (dataProvider.isLoaded) {
+                  return InternshipCard(
+                    internship: dataProvider.internships[index],
+                  );
+                }
+                return InternshipCard.loading(context, index);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
