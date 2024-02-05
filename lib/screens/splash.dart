@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(1.seconds).then((value) {
+    Future.delayed(11.seconds).then((value) {
       Navigator.of(context).pushReplacementNamed(SearchScreen.routeName);
     });
     super.initState();

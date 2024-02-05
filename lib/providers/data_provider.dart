@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart' show ChangeNotifier, VoidCallback;
+import 'package:flutter/material.dart' show ChangeNotifier;
 import 'package:http/http.dart';
 import 'package:internshala_search/models/internship.dart';
 
